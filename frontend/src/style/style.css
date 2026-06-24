@@ -1,0 +1,273 @@
+*,
+*:before,
+*:after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    /* Prevent iOS Safari from auto-zooming the page on input focus */
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    /* Layered radial glows over a lighter navy base so the page reads as
+       deep + atmospheric rather than flat black, and blends with the
+       blurred shapes instead of cutting off sharply against them */
+    background-color: #131428;
+    background-image:
+        radial-gradient(circle at 12% 18%, rgba(35, 162, 246, 0.25), transparent 45%),
+        radial-gradient(circle at 88% 82%, rgba(240, 152, 25, 0.22), transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(24, 69, 173, 0.18), transparent 70%);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* dvh accounts for mobile browser chrome (address bar) better than vh */
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px;
+}
+
+/* Form wrapper container to hold background shapes + form together */
+.auth-container {
+    position: relative;
+    width: 100%;
+    /* Bigger card footprint */
+    max-width: 560px;
+    margin: auto;
+    animation: fadeInUp 0.45s ease both;
+}
+
+.background {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Ensure circles don't block clicks */
+    overflow: visible;
+}
+
+.background .shape {
+    /* Fluid size, larger than before, with a soft blur so the edges
+       dissolve into the page background instead of looking like flat discs */
+    height: clamp(160px, 34vw, 260px);
+    width: clamp(160px, 34vw, 260px);
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(35px);
+    opacity: 0.85;
+}
+
+.shape:first-child {
+    background: linear-gradient(#1845ad, #23a2f6);
+    left: -70px;
+    top: -70px;
+}
+
+.shape:last-child {
+    background: linear-gradient(to right, #ff512f, #f09819);
+    right: -50px;
+    bottom: -70px;
+}
+
+form {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.13);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+    padding: clamp(36px, 7vw, 60px) clamp(28px, 6vw, 48px);
+    position: relative;
+    z-index: 1;
+
+    /* Flex + gap replaces the margin-top chain for predictable, even spacing */
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+form * {
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    outline: none;
+    border: none;
+}
+
+form h1 {
+    font-size: clamp(26px, 5vw, 36px);
+    font-weight: 500;
+    line-height: 1.3;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.error-msg {
+    color: #ff4a4a;
+    background: rgba(255, 74, 74, 0.15);
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid rgba(255, 74, 74, 0.2);
+    animation: shakeIn 0.3s ease;
+}
+
+/* Each input + its label, grouped so gap on the form gives even rhythm */
+form > div {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+input {
+    display: block;
+    height: 56px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 6px;
+    padding: 0 18px;
+    /* 16px stops iOS Safari from zooming the viewport on focus */
+    font-size: 16px;
+    font-weight: 300;
+    border: 1.5px solid transparent;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+input:focus {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(35, 162, 246, 0.6);
+    box-shadow: 0 0 0 3px rgba(35, 162, 246, 0.18);
+}
+
+/* Accessible focus ring for keyboard users, invisible for mouse clicks */
+input:focus-visible {
+    box-shadow: 0 0 0 3px rgba(35, 162, 246, 0.35);
+}
+
+input:invalid:not(:placeholder-shown) {
+    border-color: rgba(255, 74, 74, 0.5);
+}
+
+/* Stop browsers from forcing a white autofill background in the dark theme */
+input:-webkit-autofill {
+    -webkit-text-fill-color: #ffffff;
+    -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.07) inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+::placeholder {
+    color: #e5e5e5;
+    opacity: 0.7;
+}
+
+button {
+    margin-top: 14px;
+    width: 100%;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 17px 0;
+    font-size: 19px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease, opacity 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+    background-color: #e5e5e5;
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+button:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes shakeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Respect users who've asked for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .auth-container,
+    .error-msg {
+        animation: none;
+    }
+}
+
+/* Responsiveness adjustments for small mobile displays */
+@media (max-width: 480px) {
+    body {
+        padding: 12px;
+    }
+    form {
+        gap: 16px;
+    }
+    input {
+        height: 52px;
+    }
+    button {
+        padding: 15px 0;
+        font-size: 17px;
+    }
+}
+
+/* Very small / older devices */
+@media (max-width: 340px) {
+    form h1 {
+        font-size: 22px;
+    }
+    input {
+        height: 46px;
+    }
+}
+
+/* Landscape phones with limited height: tighten vertical rhythm */
+@media (max-height: 480px) and (orientation: landscape) {
+    form {
+        gap: 10px;
+        padding: 20px 28px;
+    }
+    form h1 {
+        margin-bottom: 0;
+    }
+}
